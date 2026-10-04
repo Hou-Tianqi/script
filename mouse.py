@@ -6,9 +6,11 @@ from random import uniform
 mouse = Controller()
 
 running = True
+ext = False
 
 def on_press(key):
     global running
+    global ext
     if key == Key.alt_l:
         if running:
             running = False
@@ -16,7 +18,10 @@ def on_press(key):
         else:
             running = True
             print("\n重新开始")
-    if key == Key.shift_r:
+    if key == Key.tab:
+        print("bye bye了您嘞")
+        running = False
+        ext = True
         return False
     return True
 
@@ -35,7 +40,7 @@ listener.start()
 print("=" * 50)
 print("⚠️  安全提示")
 print("连点器即将启动，请做好准备！")
-print("按下左Alt可随时停止,再次按左Alt启动，按下右Shift彻底结束")
+print("按下左Alt可随时停止,再次按左Alt启动，按下tab彻底结束")
 print("=" * 50)
 
 for i in range(5, 0, -1):
@@ -50,3 +55,5 @@ while True:
         mouse.release(mouse_button)
         sleep(uniform(t-0.05,t+0.06))
     sleep(0.05)
+    if ext:
+        break
