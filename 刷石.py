@@ -19,6 +19,8 @@ def on_press(key):
 listener = pynput.keyboard.Listener(on_press=on_press)
 listener.start()
 
+sleep_time = int(input("请输入多少分钟播报一次挂机")) * 60
+
 print("5秒后即将启动脚本，请做好准备，按下空格可结束")
 for i in range(5, 0, -1):
     print(f"倒计时: {i}  ", end="\r")
@@ -26,10 +28,7 @@ for i in range(5, 0, -1):
 print("脚本已启动！          ")
 
 mouse.press(Button.left)
-minute = 60
-hour = 3600
 
-sleep_time = 20*minute
 # 主循环
 while running:
     # 等待 1 小时（3600秒），但每1秒检查一次 running 状态

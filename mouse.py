@@ -1,6 +1,7 @@
 from time import sleep
 from pynput.mouse import Controller, Button
 from pynput.keyboard import Key, Listener
+from random import uniform
 
 mouse = Controller()
 
@@ -8,9 +9,14 @@ running = True
 
 def on_press(key):
     global running
-    if key == Key.space:
-        print("\n🛑 紧急停止！按空格键已生效")
-        running = False
+    if key == Key.alt_l:
+        if running:
+            running = False
+            print("\n🛑 紧急停止！")
+        else:
+            running = True
+            print("\n重新开始")
+    if key == Key.shift_r:
         return False
     return True
 
@@ -20,7 +26,7 @@ if c == "left" or c == "l" or c == "左":
 elif c == "right" or c == "r" or c == "右":
     mouse_button = Button.right
 
-t = float(input("请输入点击间隔（单位秒，输入0为1帧间隔）：").strip())
+t = float(input("请输入点击间隔（单位秒不要小于0.05）：").strip())
 
 listener = Listener(on_press=on_press)
 listener.daemon = True
@@ -29,7 +35,7 @@ listener.start()
 print("=" * 50)
 print("⚠️  安全提示")
 print("连点器即将启动，请做好准备！")
-print("按下【空格键】可随时停止")
+print("按下左Alt可随时停止,再次按左Alt启动，按下右Shift彻底结束")
 print("=" * 50)
 
 for i in range(5, 0, -1):
@@ -37,7 +43,10 @@ for i in range(5, 0, -1):
     sleep(1)
 print(0, end="\r")
 
-while running:
-    mouse.press(mouse_button)
-    mouse.release(mouse_button)
-    sleep(t)
+while True:
+    while running:
+        mouse.press(mouse_button)
+        sleep(uniform(0.01,0.03))
+        mouse.release(mouse_button)
+        sleep(uniform(t-0.05,t+0.06))
+    sleep(0.05)
